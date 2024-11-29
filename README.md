@@ -52,7 +52,7 @@ POEs were created by simulating matrnal imprinting where maternally transmitted 
 This is just an example and user can modify it as per their need.
 
 Simulation utilizes following scripts - 1) create_effects.R, 2) sim_effects_and_pheno_pooled_data.R, 3) sim_effects_and_pheno_pooled_data_run.R, 4) run_reml_pooled_data.sh, 5) process_sim_results.R, and 6) run_simulation.sh
-Simulation also uses LDAK5.1.1.linux and gcta64 version 1.26 or above. We recommend the user to keep them whrea above scripts are kept.
+Simulation also uses LDAK5.1.linux or above and gcta64 (version 1.26 or above). Due to large size, we couldn't upload gcta64 here. We recommend the user to keep them whrea above scripts are kept.
 
 The example is used for simulating data using pooled dataset and maternal trait but the name of the dataset can be changed and parameters can be modified in run_simulation.sh.
 Script automatically captures correlation coefficient of maternal and fetal genetic effects, proportion of causal variants with POEs and imprinting factor (value used to reduce the effect of maternal transmitted alleles as compared to paternal transmitted alleles) from the variable "pheno_dir" (directory name where simulated phenotypes and corresponding results are saved) in run_simulation.sh

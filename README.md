@@ -1,10 +1,10 @@
 # H-GCTA
 TO start the analyses - simulation or empricial data analyses, first step is to split the haplotypes from imputed vcf files using create_grm.sh which utilizes split_haplotypes and divide_grm binaries.
 split_haplotypes and divide_grm are written in c++ and source code can be obtained at https://github.com/PerinatalLab/HAPLOTYPES.
-Once haplotypes and corrsponding GRMs are created, further analyses can be performed.
-Following are the brief instruction for the use of each script.
+Once haplotypes and corrsponding GRMs are created, further analyses can be performed by using any software like GCTA or LDAK.
+Following is the brief instruction for the use of each script. Scripts are written for Linux64-bit operating system on the x86_64 CPU platform and use binaries like Plink1.9, gcta1.26 or above.
 
-create_grm.sh
+# create_grm.sh
 
 This is a shell script which takes five arguments -
 #arg[1] - working directory where input-output files are present

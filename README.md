@@ -45,3 +45,21 @@ Eventually, the script also creates matrices of PCs to be used as quantitative c
 Like previous script (create_grm_extend.sh), this script is also specific to our manuscript (https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full), which utilizes the GRMs and PCs created from create_grm_extend.sh and runs REML analyses using different approach and models for four traits (gday, bw, blen, hc).
 This script was also originally created for HPC (LSF platform) and to run it on personal computer with Linux64 operating system on x86_64 CPU platform, please comment out/remove lines 5-10.
 
+# simulation
+
+simulation utilizes few R and shell scripts to create simulated data with varrying contribution and correlation of maternal and fetal genetic contribution to phenotypic variance with different levels of parent-of-origin effects (POEs).
+POEs were created by simulating matrnal imprinting where maternally transmitted alleles have less effect as compared to paternal transmitted alleles. Various combinations were run; details can found (https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full).
+This is just an example and user can modify it as per their need.
+
+Simulation utilizes following scripts - 1) create_effects.R, 2) sim_effects_and_pheno_pooled_data.R, 3) sim_effects_and_pheno_pooled_data_run.R, 4) run_reml_pooled_data.sh, 5) process_sim_results.R, and 6) run_simulation.sh
+Simulation also uses LDAK5.1.1.linux and gcta64 version 1.26 or above. We recommend the user to keep them whrea above scripts are kept.
+
+The example is used for simulating data using pooled dataset and maternal trait but the name of the dataset can be changed and parameters can be modified in run_simulation.sh.
+Script automatically captures correlation coefficient of maternal and fetal genetic effects, proportion of causal variants with POEs and imprinting factor (value used to reduce the effect of maternal transmitted alleles as compared to paternal transmitted alleles) from the variable "pheno_dir" (directory name where simulated phenotypes and corresponding results are saved) in run_simulation.sh
+
+1) create_effects.R is a function which creates parental, fetal and parent-of-origin effects for the provided list of causal variants based on the parameters like mean correlation among maternal and fetal genetic effects, relative contribution of maternal and fetal genotypes, proportion of causal variants with POEs and level of maternal imprinting.
+2) sim_effects_and_pheno_pooled_data.R is another function which calls create_effects.R to create effects and then simulate phenotypes using empirical data with the help of gcta. This is the function which picks mean correlation among maternal-fetal genetic effects, proportion of causal variants with POEs and level of maternal imprinting from the variable "pheno_dir" (created in run_simulation.sh).
+3) sim_effects_and_pheno_pooled_data_run.R calls for previous scripts.
+4) run_reml.sh is compilation of commands for running REML using LDAK and GCTA models.
+5) process_sim_results.R is used to create table with mean estimates, standard error and corrsponding p values using one sided or two sided z test.
+6) run_simulaiton.sh is the script which calls for above scripts and eventually creates tabular results with estimates, SE, and p values.

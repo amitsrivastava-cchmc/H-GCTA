@@ -3,9 +3,9 @@
 #						var_ids = file with one column containing SNP IDs (second column of *.bim file which will be used to create phenotypes),
 #								Use full path of "var_ids" file to avoid directory and sub-directory issue
 #						nvar = number of variants with causal effects (vector of 3 elements - 
-#																		First is # of variants with causal parental effect,
-#																		second is # of variants with  causal fetal effect, and
-#																		third is # of variants with causal joint effect),
+#								First is # of variants with causal parental effect,
+#								second is # of variants with  causal fetal effect, and
+#								third is # of variants with causal joint effect),
 #						var_m = variance of maternal effects
 #						var_f = variance of fetal effects
 #						covar = covariance of maternal and fetal effects

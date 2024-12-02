@@ -40,9 +40,6 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 	}
 
 	# var_covar = a vector of variance-covariance for parental-fetal effects
-	#For example: c(1, 0, 0, 1); where first element i.e. 1 is variance of parental effects,
-	#second and third elements are covariance of parental-fetal effects, and
-	#last element i.e. 1 is variance of fetal effects
 
 	if(is.null(covar)){
 		var_covar = NULL;

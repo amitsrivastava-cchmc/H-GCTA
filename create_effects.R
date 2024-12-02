@@ -39,7 +39,7 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 		stop("Number of causal variants to be selected are more than the number of variants provided in the list\n");
 	}
 
-	# var_covar = a vector of variance-covariance for parental-fetal effects
+	# var_covar = a matrix of variance-covariance for parental-fetal effects
 
 	if(is.null(covar)){
 		var_covar = NULL;

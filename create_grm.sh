@@ -207,6 +207,21 @@ function adjustGRM {
 read -p "Do you want to create GRM from extracted vcf file and plink compatible haplotype files [y/n]: "
 if [[ $REPLY == "Y" || $REPLY == "y" ]]
 then
+	if ! [ -z "${2}_extracted_hapM.tokeep" ]
+	then
+		sort -h -k 3,3 ${2}_extracted_hapM.tokeep > ${2}_extracted_hapM_t.tokeep
+		mv ${2}_extracted_hapM_t.tokeep ${2}_extracted_hapM.tokeep
+		sort -h -k 1,1 ${2}_extracted_hapM.fam > ${2}_extracted_hapM_t.fam
+		mv ${2}_extracted_hapM_t.fam ${2}_extracted_hapM.fam
+	fi
+	if ! [ -z "${2}_extracted_hapP.tokeep" ]
+	then
+		sort -h -k 3,3 ${2}_extracted_hapP.tokeep > ${2}_extracted_hapP_t.tokeep
+		mv ${2}_extracted_hapP_t.tokeep ${2}_extracted_hapP.tokeep
+		sort -h -k 1,1 ${2}_extracted_hapP.fam > ${2}_extracted_hapP_t.fam
+		mv ${2}_extracted_hapP_t.fam ${2}_extracted_hapP.fam
+	fi
+ 
 	if [ "$(command -v ./plink)" ] || [ "$(command -v plink)" ]
 	then
         if [ ${4} = "trios" ]

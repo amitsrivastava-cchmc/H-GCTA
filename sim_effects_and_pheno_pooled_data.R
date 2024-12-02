@@ -47,7 +47,7 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 				cat("Creating phenotypes using haplotypes in", path, "\n");
 
-				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 			}else{
 				cat("Proportion of causal variants with POEs in fetus is missing, cannot incorporate POEs\n")
 
@@ -55,7 +55,7 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 				cat("Creating phenotypes using haplotypes in", path, "\n");
 
-				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 			}
 		}else{
 			if("ppoe" %in% zz){
@@ -64,7 +64,7 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 				cat("Creating phenotypes using haplotypes in", path, "\n");
 
-				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 			}else{
 				cat("Proportion of causal variants with POEs in fetus is missing, cannot incorporate POEs\n")
 
@@ -72,13 +72,13 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 				cat("Creating phenotypes using haplotypes in", path, "\n");
 
-				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+				system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 			}
 		}
 
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m1  --thread-num 16");
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM2_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m2  --thread-num 16");
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapP1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_p1  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m1  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM2_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m2  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapP1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_p1  --thread-num 16");
 
 		sim_fet_m1 = read.table("./pheno1/sim_fet_m1.phen", head=F, as.is=T);
 		sim_fet_p1 = read.table("./pheno1/sim_fet_p1.phen", head=F, as.is=T);
@@ -138,15 +138,15 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 			cat("Creating phenotypes using haplotypes in", path, "\n");
 
-			system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+			system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_poes.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 		}else{
 
 			create_effects(direc = direc, iter = 1, var_ids = var_ids, nvar = nvar, var_m = var_m, var_f = var_f, covar =  NULL, POE = F);
 
-			system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
+			system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_m1  --thread-num 16");
 		}
 
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapP1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_p1  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapP1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_fet_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_fet_p1  --thread-num 16");
 
 		sim_fet_m1 = read.table("./pheno1/sim_fet_m1.phen", head=F, as.is=T);
 		sim_fet_p1 = read.table("./pheno1/sim_fet_p1.phen", head=F, as.is=T);
@@ -180,8 +180,8 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 
 		create_effects(direc = direc, iter = 1, var_ids = var_ids, nvar = nvar, var_m = var_m, var_f = var_f, covar =  NULL, POE = F);
 
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM1_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m1  --thread-num 16");
-		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data_maf0.000001/pooled_data_hapM2_comm_0.000001_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m2  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM1_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m1  --thread-num 16");
+		system(command = "/data/predataSamit/simulation_with_poe_and_mf_cor/gcta64  --bfile /data/predataSamit/simulation_with_poe_and_mf_cor/gcta_simulation_pooled_data/pooled_data_hapM2_comm_kinship0.05  --simu-qt  --simu-causal-loci ./pheno1/sim_par_effects.txt --simu-hsq 0.5 --simu-rep 100  --out ./pheno1/sim_par_m2  --thread-num 16");
 
 		sim_par_m1 = read.table("./pheno1/sim_par_m1.phen", head=F, as.is=T);
 		sim_par_m2 = read.table("./pheno1/sim_par_m2.phen", head=F, as.is=T);
@@ -208,4 +208,3 @@ sim_eff_pheno = function(direc, phen_rep, var_ids, nvar, var_m, var_f){
 		}
 	}
 }
-

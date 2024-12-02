@@ -39,8 +39,8 @@ The script uses an example file of pooled dataset with all polymorphic SNPs (poo
 **If you choose to rename the output also in line 28, please make sure to find and relace it throughout the script**
 **We strongly recommend to retain other output names as they can be directly used in est_h2_with_pcs.sh**
 
-The script creates and modifies GRMs using different models like LDAK-Thin, LDAK (we refer it as LDAK-Weights as it uses SNP specific weights) and Threshold GRM, extracts the set of duos using kinship-coefficient cut-off (0.05). 
-For the purpose, script searches for "pooled_mduos_extract_list.txt" in the working directory which is a concatenated file created from "mduos_extract_list.txt" created in individual datasets by the script "create_grm.sh".
+The script creates and modifies GRMs using different models like LDAK-Thin, LDAK (we refer it as LDAK-Weights as it uses SNP specific weights), extracts the set of duos using kinship-coefficient cut-off (0.05). 
+For the latter one, script searches for "pooled_mduos_extract_list.txt" in the working directory which is a concatenated file created from "mduos_extract_list.txt" created in individual datasets by the script "create_grm.sh".
 It also modifies the GRMs which are used in M-GCTA approach by extracting the GRMs based on mother's genotypes, fetuses' genotypes and maternal-fetal genetic correlation. A R script (mod_mf_grm.R) is called for the purpose which reads the GRM created from maternal-fetal joint data and writes plink/gcta compatible GRMs based on only mothers, fetuses and maternal-fetal genetic correlation.
 Eventually, the script also creates matrices of PCs to be used as quantitative covariates in further analyses via GCTA, H-GCTA and M-GCTA analyses.
 
@@ -48,9 +48,9 @@ Eventually, the script also creates matrices of PCs to be used as quantitative c
 
 Like create_grm_extend.sh, this script was also originally created for HPC (LSF platform) and to run it on personal computer with Linux64 operating system on x86_64 CPU platform, please comment out/remove lines 5-10.
 The script utilizes the GRMs and PCs created from create_grm_extend.sh and runs REML as well as HE regression analyses using different approach and models for four traits (gday, bw, blen, hc).
-H-GCTA and M-GCTA accept list of GRMs without extension saved as hgcta_*_list.txt and mgcta_*_list.txt, respectively.
-* represent grm component (e.g.: genoM, genoF, hapM1, hapM2, hapP1, mf), model (e.g.: thin, ldak_weights, ldak_gcta) and alpha value (e.g.: alpha-1.0 or alpha-0.25). Please refer to the script for detail on *.
-If user retained the output file names in create_grm_extend.sh, this script can be used just by replacing the trait names (gday, bw, blen, hc).
+H-GCTA and M-GCTA accept list of GRMs without extension saved as hgcta_[model]_mduos_[alpha-1.0/alpha-0.25]_grm_list.txt and mgcta_[model]_mduos_[alpha-1.0/alpha-0.25]_grm_list.txt, respectively.
+Model (e.g.: ladka_thin, ldak_weights, ldak_gcta) and alpha value (e.g.: alpha-1.0 or alpha-0.25) depend on the analysis. Please refer to the script for details.
+If user retained the output file names in create_grm_extend.sh and lists of GRMs saved in above format, this script can be used just by replacing the trait names (gday, bw, blen, hc).
 **please, don't forget to replace the trait names before running the script!**
 
 # simulation

@@ -207,6 +207,9 @@ function adjustGRM {
 read -p "Do you want to create GRM from extracted vcf file and plink compatible haplotype files [y/n]: "
 if [[ $REPLY == "Y" || $REPLY == "y" ]]
 then
+	# .tokeep files are sorted according to maternal and paternal ids and their corresponding .fam files like (*_hapM.fam & *_hapP.fam) are children ids in the same order as column 3 and 4 of .tokeep file.
+ 	# To keep every in same order (sorted by children ids), we need to sort the .tokeep file based on column 3 and their corresponding .fam files based on column 1.
+
 	if ! [ -z "${2}_extracted_hapM.tokeep" ]
 	then
 		sort -h -k 3,3 ${2}_extracted_hapM.tokeep > ${2}_extracted_hapM_t.tokeep

@@ -10,7 +10,7 @@
 #BSUB -o /data/predataSamit/simulation_with_poe_and_mf_cor/%J.out
 
 pheno_dir=$(echo "/data/predataSamit/simulation_with_poe_and_mf_cor/simulation_mat_pooled_data")
-grm_dir=$(echo "/data/predataSamit/empirical_data_analysis/pooled_data_maf0.000001")
+grm_dir=$(echo "/data/predataSamit/empirical_data_analysis/pooled_data")
 nvar1=10000
 nvar2=0
 nvar3=0

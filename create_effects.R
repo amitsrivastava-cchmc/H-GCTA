@@ -1,17 +1,16 @@
 # Use => create_effects(direc = "dir-name-with-path" (pheno{1..iter} sub-directories must be present in the given directory),
-#						iter = # of simulations,
-#						var_ids = file with one column containing SNP IDs (second column of *.bim file which will be used to create phenotypes),
-#								Use full path of "var_ids" file to avoid directory and sub-directory issue
-#						nvar = number of variants with causal effects (vector of 3 elements - 
-#								First is # of variants with causal parental effect,
-#								second is # of variants with  causal fetal effect, and
-#								third is # of variants with causal joint effect),
-#						var_m = variance of maternal effects
-#						var_f = variance of fetal effects
-#						covar = covariance of maternal and fetal effects
-#				POE = TRUE/FALSE,
-#				ppoe = proportion of causal variants with fetal effects showing poes,
-#				rho = factor by which effect of m1 or p1 is reduced if eff_source is mf or pf respectively)
+#			iter = # of simulations,
+#			var_ids = file with one column containing SNP IDs (second column of *.bim file which will be used to create phenotypes), # Use full path of "var_ids" file to avoid directory and sub-directory issue
+#			nvar = number of variants with causal effects (vector of 3 elements - 
+#				First is # of variants with causal parental effect,
+#				Second is # of variants with  causal fetal effect, and
+#				Third is # of variants with causal joint effect),
+#			var_m = variance of maternal effects
+#			var_f = variance of fetal effects
+#			covar = covariance of maternal and fetal effects
+#			POE = TRUE/FALSE,
+#			ppoe = proportion of causal variants with fetal effects showing poes,
+#			rho = factor by which effect of m1 or p1 is reduced if eff_source is mf or pf respectively)
 
 create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, ppoe, rho){
 
@@ -22,10 +21,6 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 	## load packages
 
 	require("MASS");
-
-	## set working directory
-
-	setwd(direc);
 
 	## read vector of causal variants
 
@@ -39,7 +34,7 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 		stop("Number of causal variants to be selected are more than the number of variants provided in the list\n");
 	}
 
-	# var_covar = a matrix of variance-covariance for parental-fetal effects
+	# var_covar = a vector of variance-covariance for parental-fetal effects
 
 	if(is.null(covar)){
 		var_covar = NULL;
@@ -52,7 +47,7 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 		## set directoy where effect sizes will be written
 
 		pheno = paste0("pheno", i);
-		ll = system(command = paste("find . -type d -name", pheno, sep = " "), intern = TRUE);
+		ll = system(command = paste("find", direc, "-type d -name", pheno, sep = " "), intern = TRUE);
 		if(is.null(ll)){
 			cat("Skipping", pheno, ":", "Working directory must have sub-directory named as", pheno, "\n");
 			next;
@@ -126,11 +121,17 @@ create_effects = function(direc, iter, var_ids, nvar, var_m, var_f, covar, POE, 
 			lpoe = round(ppoe * sum(lcv_ft, lcv_joint), 4);
 			cv_poe = sample(c(cv_ft, cv_joint), lpoe, replace = FALSE);
 			u_poe[cv_poe, 1] = rho * u_poe[cv_poe, 1];
-			write.table(u_poe, file.path(".", pheno, "sim_poes.txt"), sep = "\t", quote = FALSE, col.names = FALSE);
+			path.poes = file.path(direc, pheno, "sim_poes.txt");
+			write.table(u_poe, path.poes, sep = "\t", quote = FALSE, col.names = FALSE);
 		}
 
-		write.table(u[, 1], file.path(".", pheno, "sim_par_effects.txt"), sep = "\t", quote = FALSE, col.names = FALSE);
-		write.table(u[, 2], file.path(".", pheno, "sim_fet_effects.txt"), sep = "\t", quote = FALSE, col.names = FALSE);
+		path.par = file.path(direc, pheno, "sim_par_effects.txt");
+		path.fet = file.path(direc, pheno, "sim_fet_effects.txt");
+
+		write.table(u[, 1], path.par, sep = "\t", quote = FALSE, col.names = FALSE);
+		write.table(u[, 2], path.fet, sep = "\t", quote = FALSE, col.names = FALSE);
+		
+		cat(path.poes, path.par, path.fet, "\n");
 
 		cat(pheno, ":", "Causal effects created!\n");
 

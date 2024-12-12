@@ -1,15 +1,33 @@
 #!/bin/bash
 
-#if running on cluster first load bcftools, gcc and glibc as below
+#if running on HPC (IBM - LSF platform) first load bcftools, gcc and glibc as below
 #module load bcftools/1.8
 #module load gcc/5.4.0
 #module load glibc/2.14
 
-#arg[1] - working directory where input-output files are present
+#arg[1] - working directory where input-output files are present (full path)
 #arg[2] - prefix of vcf file name
 #arg[3] - list of individuals/duos/trios
 #arg]4] - "trios" or "pat-duos" or "mat-duos" "individuals"
-#arg[5] - maf cutoff (say 0.000001)
+#arg[5] - maf cutoff (say 0.01)
+
+#create symbolic link of binaries to computer's $PATH (you need to have superuser priviledge to create symbolic link)
+
+#for file in "../bin/"*
+#do
+#       	if [ -x "$file" ]
+#	then
+#		ln -sf "$file" /usr/local/bin
+#		echo -e "link for "$file" successfully created!\n"
+#	else
+#		echo -e "$file is not executable, use chmod +x ../bin/*, then run the script again.\n"
+#	fi
+#done
+
+#Alternative way
+
+binpath=$(realpath ../bin)
+export PATH="$PATH:$binpath"
 
 #read working directory from input
 
@@ -75,28 +93,23 @@ then
 		}' ${2}_ids.txt ${3} | sort -h -k 1,1 > mduos_extract_list.txt
 	awk '{print $1 "\n" $3}' mduos_extract_list.txt | sort -h -k 1,1 > ind_to_extract.txt
 #else
-#	awk 'BEGIN{OFS="\t"}
-#		NR==FNR{
-#			x[$1] = $1
-#			next
-#		}
-#		{
-#			if($1 in x && !($2 in x || $3 in x)){
-#				print $1 OFS 0 OFS 0
-#			}
-#		}' ${2}_ids.txt ${3} | sort -h -k 1,1 > unrelatd_extract_list.txt
-#	awk '{print $1}' | sort -h -k 1,1 > ind_to_extract.txt
+	awk 'BEGIN{OFS="\t"}
+		NR==FNR{
+			x[$1] = $1
+			next
+		}
+		{
+			if($1 in x && !($2 in x || $3 in x)){
+				print $1 OFS 0 OFS 0
+			}
+		}' ${2}_ids.txt ${3} | sort -h -k 1,1 > unrelatd_extract_list.txt
+	awk '{print $1}' | sort -h -k 1,1 > ind_to_extract.txt
 fi
 
 #extract list of samples from vcf file using either bcftools or awk script. 
 #awk script is 2-3 times faster than bcftools.
-#however, bcftools can also extract [variants maf[0] > 0.000001] simultaneously.
 
-if [ "$(command -v ./bcftools)" ]
-then
-	echo -e "bcftools is executed from ${1}\n"
-	../bin/bcftools view -S ind_to_extract.txt ${2}.vcf.gz --threads 32 -Oz > ${2}_extracted.vcf.gz
-elif [ "$(command -v bcftools)" ]
+if [ "$(command -v bcftools)" ]
 then
 	echo -e "bcftools is executed from " $(command -v bcftools)"\n"
 	bcftools view -S ind_to_extract.txt ${2}.vcf.gz --threads 32 -Oz > ${2}_extracted.vcf.gz
@@ -135,8 +148,8 @@ fi
 read -p "Do you want to split extracted vcf file into plink compatible haplotype files [y/n]: "
 if [[ $REPLY == "Y" || $REPLY == "y" ]]
 then
-	if [ "$(command -v ./split_haplotypes)" ] || [ "$(command -v split_haplotypes)" ]
-	then
+	if [ "$(command -v split_haplotypes)" ]
+	then	
 		if [ ${4} = "trios" ]
 		then
 			echo -e "\nConverting VCFs (trios) to haplotype BEDs..."
@@ -154,13 +167,11 @@ then
 			echo -e "Haplotype BEDs produced\n"
 		fi
 	else
-		echo -e "'split_haplotype' isn't present in ${1} or any default path\n"
+		echo -e "'split_haplotype' isn't present in "$binpath" or any default path\n"
 		echo -e "extracted vcf file is saved in ${1}\n"
-		exit 0
 	fi
 else
 	echo -e "extracted vcf file is saved in ${1}\n"
-	exit 0
 fi
 
 #modify bim files (use it only for genotype bim files not for haplotypes)
@@ -171,9 +182,9 @@ function modbim {
 	awk 'BEGIN{OFS="\t"}
 		{
 			if($2 == "."){
-				$2 = $1 ":" $4 ":" $5 ":" $6
+				$2 = $1 ":" $4 ":" $6 ":" $5
 			}else{
-				$2 = $1 ":" $2 ":" $4 ":" $5 ":" $6
+				$2 = $1 ":" $2 ":" $4 ":" $6 ":" $5
 			}
 			print
 		}' ${1}.bim > ${1}_tmp.txt
@@ -190,16 +201,12 @@ function modbim {
 
 function adjustGRM {
 	echo -e "\nAdjusting GRM ${1}.grm.bin by a factor of ${3}...\n"
-	if [ "$(command -v ./divide_grm)" ]
-	then
-		./divide_grm ${1}.grm.bin ${1}.grm.bin_temp ${2} ${3} 
-		mv ${1}.grm.bin_temp ${1}.grm.bin
-	elif [ "$(command -v divide_grm)" ]
+	if [ "$(command -v divide_grm)" ]
 	then
 		divide_grm ${1}.grm.bin ${1}.grm.bin_temp ${2} ${3} 
 		mv ${1}.grm.bin_temp ${1}.grm.bin
 	else
-		"'divide_grm' isn't present in "$(pwd)" or any default path\n"
+		"'divide_grm' isn't present in "$binpath" or any default path\n"
 		exit 0
 	fi
 }
@@ -209,7 +216,7 @@ if [[ $REPLY == "Y" || $REPLY == "y" ]]
 then
 	# .tokeep files are sorted according to maternal and paternal ids and their corresponding .fam files (*_hapM.fam & *_hapP.fam) are children ids in the same order as column 3 and 4 of .tokeep file.
  	# However, plink-format data is stored in an order corresponding to hapF.fam.
-  	# To keep everything in the same order (sorted by children ids), we need to sort the .tokeep file based on column 3 and their corresponding .fam files based on column 1.
+  	# To keep everything in the same order (sorted by children ids), we need to sort the .tokeep files based on column 3 and their corresponding .fam files based on column 1.
 
 	if ! [ -z "${2}_extracted_hapM.tokeep" ]
 	then
@@ -226,7 +233,7 @@ then
 		mv ${2}_extracted_hapP_t.fam ${2}_extracted_hapP.fam
 	fi
  
-	if [ "$(command -v ./plink)" ] || [ "$(command -v plink)" ]
+	if [ "$(command -v plink)" ]
 	then
         if [ ${4} = "trios" ]
         then
@@ -243,7 +250,7 @@ then
 			awk '{print $1 ":" $4 ":" $6 ":" $5}' ${2}_extracted_genoM.bim > ${2}_snps_gt_${5}.txt
 
 			modbim ${2}_extracted_genoM
-			awk '{print $2}' ${2}_extracted_genoM > ${2}_extracted_geno_snps_list.txt
+			awk '{print $2}' ${2}_extracted_genoM.bim > ${2}_extracted_geno_snps_list.txt
 
 			echo -e "\nProducing maternal-genotype GRM...\n"
 
@@ -277,7 +284,7 @@ then
 			echo -e "\n"
 
 			plink --bfile ${2}_extracted_genoF_tmp --extract ${2}_extracted_geno_snps_list.txt \
-				--keep-allele-order --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_genoF
+				--keep-allele-order --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_genoF
 
 			rm ${2}_extracted_genoF_tmp.*
 
@@ -294,7 +301,7 @@ then
 			echo -e "\nProducing maternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapM1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapM1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_hapM1_tmp
 
 			mv ${2}_extracted_hapM1_tmp.bed ${2}_extracted_hapM1.bed
 			mv ${2}_extracted_hapM1_tmp.bim ${2}_extracted_hapM1.bim
@@ -310,7 +317,7 @@ then
 			echo -e "\nProducing paternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapP1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapP1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_hapP1_tmp
 
 			mv ${2}_extracted_hapP1_tmp.bed ${2}_extracted_hapP1.bed
 			mv ${2}_extracted_hapP1_tmp.bim ${2}_extracted_hapP1.bim
@@ -371,7 +378,7 @@ then
 			awk '{print $1 ":" $4 ":" $6 ":" $5}' ${2}_extracted_genoP.bim > ${2}_snps_gt_${5}.txt
 
 			modbim ${2}_extracted_genoM
-			awk '{print $2}' ${2}_extracted_genoP > ${2}_extracted_geno_snps_list.txt
+			awk '{print $2}' ${2}_extracted_genoP.bim > ${2}_extracted_geno_snps_list.txt
 
 			echo -e "\nProducing paternal-genotype GRM...\n"
 
@@ -387,7 +394,7 @@ then
 			echo -e "\n"
 
 			plink --bfile ${2}_extracted_genoF_tmp --extract ${2}_extracted_geno_snps_list.txt \
-				--keep-allele-order --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_genoF
+				--keep-allele-order --indiv-sort f ${2}_extracted_hapP.fam --make-bed --out ${2}_extracted_genoF
 
 			echo -e "\nProducing fetal-genotype GRM...\n"
 
@@ -403,7 +410,7 @@ then
 			echo -e "\nProducing maternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapM1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapM1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapP.fam --make-bed --out ${2}_extracted_hapM1_tmp
 
 			mv ${2}_extracted_hapM1_tmp.bed ${2}_extracted_hapM1.bed
 			mv ${2}_extracted_hapM1_tmp.bim ${2}_extracted_hapM1.bim
@@ -419,7 +426,7 @@ then
 			echo -e "\nProducing paternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapP1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapP1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapP.fam --make-bed --out ${2}_extracted_hapP1_tmp
 
 			mv ${2}_extracted_hapP1_tmp.bed ${2}_extracted_hapP1.bed
 			mv ${2}_extracted_hapP1_tmp.bim ${2}_extracted_hapP1.bim
@@ -464,7 +471,7 @@ then
 			awk '{print $1 ":" $4 ":" $6 ":" $5}' ${2}_extracted_genoM.bim > ${2}_snps_gt_${5}.txt
 
 			modbim ${2}_extracted_genoM
-			awk '{print $2}' ${2}_extracted_genoM > ${2}_extracted_geno_snps_list.txt
+			awk '{print $2}' ${2}_extracted_genoM.bim > ${2}_extracted_geno_snps_list.txt
 
 			echo -e "\nProducing maternal-genotype GRM...\n"
 
@@ -480,7 +487,7 @@ then
 			echo -e "\n"
 
 			plink --bfile ${2}_extracted_genoF_tmp --extract ${2}_extracted_geno_snps_list.txt \
-				--keep-allele-order --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_genoF
+				--keep-allele-order --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_genoF
 
 			echo -e "\nProducing fetal-genotype GRM...\n"
 
@@ -496,7 +503,7 @@ then
 			echo -e "\nProducing maternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapM1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapM1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_hapM1_tmp
 
 			mv ${2}_extracted_hapM1_tmp.bed ${2}_extracted_hapM1.bed
 			mv ${2}_extracted_hapM1_tmp.bim ${2}_extracted_hapM1.bim
@@ -512,7 +519,7 @@ then
 			echo -e "\nProducing paternal-transmitted BED above set MAF cutoff...\n"
 
 			plink --bfile ${2}_extracted_hapP1 --bim ${2}_extracted_hap.bim --fam ${2}_extracted_hapF.fam \
-				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapF.fam --make-bed --out ${2}_extracted_hapP1_tmp
+				--extract ${2}_snps_gt_${5}.txt --indiv-sort f ${2}_extracted_hapM.fam --make-bed --out ${2}_extracted_hapP1_tmp
 
 			mv ${2}_extracted_hapP1_tmp.bed ${2}_extracted_hapP1.bed
 			mv ${2}_extracted_hapP1_tmp.bim ${2}_extracted_hapP1.bim
@@ -544,7 +551,7 @@ then
 			rm ${2}_extracted_hap.bim ${2}_extracted_hapF.fam ${2}_extracted_hapM.fam ${2}_extracted_hapP.fam
 		fi
 	else
-		echo -e "plink isn't present in ${1} or any default path\n"
+		echo -e "plink isn't present in "$binpath" or any default path\n"
 		echo -e "splitted haplotype BED files and corresponding FAM & BIM files are saved in ${1}\n"
 		exit 0
 	fi

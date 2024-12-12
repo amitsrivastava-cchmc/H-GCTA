@@ -215,4 +215,3 @@ awk '$1 ~ /Her_K3/' ${pheno_dir}/ldak_weights_alpha-0.25_sim_results_mf.txt > ${
 #process results from simulated data to create tables with h2, SE, and p- values
 
 Rscript ${current_dir}/process_sim_results.R $pheno_dir
-

@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #following are commands to extract GRMs bsed on maternal genotypes, fetal genotypes and maternal-fetal genetic correlation from the mother-child joint GRM.
 #function "ReadGRMBin" is adoopted from the GCTA.
 

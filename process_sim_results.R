@@ -201,4 +201,3 @@ aa = sapply(1:nrow(dd), function(x) z.test(dd[x, 1], 0, dd[x, 2], 0));
 dd[, c(3,4)] = t(aa);
 
 write.table(dd, file.path(dir_name, "gcta_sim_results_all.txt"), sep = "\t", quote = FALSE);
-

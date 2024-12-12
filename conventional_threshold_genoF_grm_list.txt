@@ -1,0 +1,2 @@
+/home/user/H-GCTA/data.test/test_extracted_genoF_grm
+/home/user/H-GCTA/data.test/test_extracted_genoF_bK_grm

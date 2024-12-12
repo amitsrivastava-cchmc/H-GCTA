@@ -1,3 +1,0 @@
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_weights_alpha-0.25_mother_grm
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_weights_alpha-0.25_fetus_grm
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_weights_alpha-0.25_mf_grm

@@ -1,6 +1,0 @@
-/home/user/H-GCTA/data.test/test_extracted_hapM1_grm
-/home/user/H-GCTA/data.test/test_extracted_hapM1_bK_grm
-/home/user/H-GCTA/data.test/test_extracted_hapM2_grm
-/home/user/H-GCTA/data.test/test_extracted_hapM2_bK_grm
-/home/user/H-GCTA/data.test/test_extracted_hapP1_grm
-/home/user/H-GCTA/data.test/test_extracted_hapP1_bK_grm

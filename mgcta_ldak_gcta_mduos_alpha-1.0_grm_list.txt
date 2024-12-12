@@ -1,3 +1,0 @@
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_gcta_alpha-1.0_mother_grm
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_gcta_alpha-1.0_fetus_grm
-/home/user/H-GCTA/data.test/test_extracted_mf_ldak_gcta_alpha-1.0_mf_grm

@@ -1,5 +1,5 @@
 # H-GCTA
-TO start the analyses - simulation or empricial data analyses, first step is to split the haplotypes from imputed vcf files using create_grm.sh which utilizes split_haplotypes and divide_grm binaries.
+To start the analyses - simulation or empricial data analyses, first step is to split the haplotypes from imputed vcf files using create_grm.sh which utilizes split_haplotypes and divide_grm binaries.
 split_haplotypes and divide_grm are written in c++ and source code can be obtained at https://github.com/PerinatalLab/HAPLOTYPES.
 Once haplotypes and corrsponding GRMs are created, further analyses can be performed by using any software like GCTA or LDAK. We have provided scripts like create_grm_extend.sh and est_h2_with_pcs.sh (which also calls for mod_mf.R) for that.
 Like empirical data analyses, simulation involves several scripts - create_effects.R, sim_effects_and_pheno.R sim_effects_and_pheno_run.R, run_reml.sh, process_sim_results.R, and run_simulation.sh. The last scripts (run_simulation.sh) is the main executable which calls for rest scripts.

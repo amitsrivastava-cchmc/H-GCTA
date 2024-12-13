@@ -5,7 +5,7 @@ Once haplotypes and corrsponding GRMs are created, further analyses can be perfo
 Like empirical data analyses, simulation involves several scripts - create_effects.R, sim_effects_and_pheno.R sim_effects_and_pheno_run.R, run_reml.sh, process_sim_results.R, and run_simulation.sh. The last scripts (run_simulation.sh) is the main executable which calls for rest scripts.
 # General Recommendations:
 Most of the scripts except create_grm.sh and create_effects.R, use "test_extracted" in their input file names, therefore, please use name "test.vcf.gz" for your initial imputed data which automatically generates test_extracted.vcf.gz and future files with same names.
-Please keep indexed test.vcf.gz and a list of trio/duos (file must have 3 columsn without header, same as column 2-4 of .bim file) in H-GCTA/data.test.
+Please keep indexed test.vcf.gz and a list of trio/duos (file must have 3 columsn without header, same as column 2-4 of .bim file) in ~/H-GCTA/data.test.
 List of GRMs must have GRM names without extension and with full path (examples of GRM lists are included in data.test, please replace "user" with your actual "user name").
 Phenotype file must have 3 columns - FID, IID and Phenotype (without header).
 Scripts are written for Linux64-bit operating system on the x86_64 CPU platform.
@@ -30,7 +30,7 @@ Following is the brief instruction for the use of each script.
 
   In the next step, it extracts data for those trios/duos from the imputed vcf file using bcftools.
   If bcftools is not present in either ~/H-GCTA/bin or default path, an alternative awk script invokes to extract those samples from the vcf file.
-  This step is computationally expensive, particularly for large data. However it is optional, one can omit this step and directly split haplotypes using raw imputed data.
+  This step is computationally expensive, particularly for large data. However it is optional, one can omit this step and directly split haplotypes using raw imputed data (In case, you don't want to create another vcf file with only trios/duos, please save the original indexed vcf file as "test_extracted.vcf.gz").
 
   Once extracted vcf file is created, script asks if the user wants to create plink-format haplotype files.
   This step only runs if user responds [y/Y] otherwise the script only writes the extractd vcf file along with trios, duos pedigree file.
@@ -47,7 +47,7 @@ Following is the brief instruction for the use of each script.
 
   The script creates and modifies GRMs using different models like GREML, LDAK-Thin, LDAK (we refer it to as LDAK-Weights as it uses SNP specific weights), extracts the set of duos using kinship-coefficient cut-off (0.05). 
   For the latter one, script searches for "mduos_extract_list.txt" which was created via "create_grm.sh".
-  It also modifies the GRMs which are used in M-GCTA approach by extracting the GRMs based on mother's genotypes, fetuses' genotypes and maternal-fetal genetic correlation. A R script (mod_mf_grm.R) is called for the purpose which reads the GRM created from maternal-  fetal joint data and writes plink/gcta compatible GRMs based on only mothers, fetuses and maternal-fetal genetic correlation.
+  It also modifies the GRMs which are used in M-GCTA approach by extracting the GRMs based on mother's genotypes, fetuses' genotypes and maternal-fetal genetic correlation. An R script (mod_mf_grm.R) is called for the purpose which reads the GRM created from maternal-  fetal joint data and writes plink/gcta compatible GRMs based on only mothers, fetuses and maternal-fetal genetic correlation.
   Eventually, the script also creates matrices of PCs to be used as quantitative covariates in further analyses via GCTA, H-GCTA and M-GCTA approach.
 
   # est_h2_with_pcs.sh
@@ -61,8 +61,8 @@ Following is the brief instruction for the use of each script.
 
 # simulation
 
-simulation utilizes few R and shell scripts to create simulated data with varrying contribution and correlation of maternal and fetal genetic contribution to phenotypic variance with different levels of parent-of-origin effects (POEs).
-POEs were created by simulating matrnal imprinting where maternally transmitted alleles have less effect as compared to paternal transmitted alleles. Analyses were performed using various simulation conditions; details can found (https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full).
+simulation utilizes few R and shell scripts to create simulated data with varrying contribution and correlation of maternal and fetal genetic contribution to phenotypic variance along with different levels of parent-of-origin effects (POEs).
+POEs were created by simulating matrnal imprinting where maternally transmitted alleles have less effect as compared to paternal transmitted alleles. Analyses were performed using various simulation conditions; details can be found (https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full).
 Simulation utilizes following scripts - 1) create_effects.R, 2) sim_effects_and_pheno.R, 3) sim_effects_and_pheno_run.R, 4) run_reml.sh, 5) process_sim_results.R, and 6) run_simulation.sh
 
 **Most of the simulaiton scripts (except create_effects.R) use "test_extracted" in their input names, therefore please save your original idexed vcf file as "test.vcf.gz".**

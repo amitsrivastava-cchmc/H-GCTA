@@ -15,7 +15,7 @@
 
 #for file in "../bin/"*
 #do
-#       	if [ -x "$file" ]
+#       if [ -x "$file" ]
 #	then
 #		ln -sf "$file" /usr/local/bin
 #		echo -e "link for "$file" successfully created!\n"

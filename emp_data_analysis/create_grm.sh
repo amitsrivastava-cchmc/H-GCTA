@@ -114,7 +114,7 @@ then
 	echo -e "bcftools is executed from " $(command -v bcftools)"\n"
 	bcftools view -S ind_to_extract.txt ${2}.vcf.gz --threads 32 -Oz > ${2}_extracted.vcf.gz
 else
-	echo -e "bcftools isn't present in $binpath or any default path\n"
+	echo -e "bcftools isn't present in "$binpath" or any default path\n"
 	echo -e "awk script will be used\n"
 	awk 'BEGIN{OFS = "\t"}
 		NR==FNR{

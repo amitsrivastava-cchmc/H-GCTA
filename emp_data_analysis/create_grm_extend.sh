@@ -47,7 +47,7 @@ cd $wd
 #done
 
 #create GRM and modify them
-#Although GRMs corresponding to maternal, fetal genotypes and maternal transmitted, non-transmitted and paternal transmitted haplotypes are already created via create_grm.sh, these steps are repeated here to maintain consistency trhoughout the script. These steps can be commented out, if not needed.
+#Although GRMs corresponding to maternal, fetal genotypes and maternal transmitted, non-transmitted and paternal transmitted haplotypes are already created using GCTA via create_grm.sh, these steps are repeated here to maintain consistency trhoughout the script. These steps can be commented out, if not needed.
 
 if [ "$chr" ]
 then

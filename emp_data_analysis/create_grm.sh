@@ -36,7 +36,7 @@ echo -e "Outputs will be generated in $(pwd)\n"
 
 #list of samples present in imputed vcf file
 
-gunzip -c ${2}.vcf.gz | head -n 200 | awk '$1 ~ /^#CHROM/{
+gunzip -c ${2}.vcf.gz | head -n 300 | awk '$1 ~ /^#CHROM/{
 								for(i=10; i<=NF; i++){
 									print $i
 								}
@@ -114,7 +114,7 @@ then
 	echo -e "bcftools is executed from " $(command -v bcftools)"\n"
 	bcftools view -S ind_to_extract.txt ${2}.vcf.gz --threads 32 -Oz > ${2}_extracted.vcf.gz
 else
-	echo -e "bcftools isn't present in ${1} or any default path\n"
+	echo -e "bcftools isn't present in $binpath or any default path\n"
 	echo -e "awk script will be used\n"
 	awk 'BEGIN{OFS = "\t"}
 		NR==FNR{

@@ -6,8 +6,8 @@
 #BSUB -W 48:00
 #BSUB -n 8
 #BSUB -R "span[ptile=2]"
-#BSUB -e /user/empirical_data_analysis/%J.err
-#BSUB -o /user/empirical_data_analysis/%J.out
+#BSUB -e /data/user/empirical_data_analysis/%J.err
+#BSUB -o /data/user/empirical_data_analysis/%J.out
 
 #load libraries
 

@@ -5,7 +5,7 @@ Once haplotypes and corrsponding GRMs are created, further analyses can be perfo
 Like empirical data analyses, simulation involves several scripts - create_effects.R, sim_effects_and_pheno.R sim_effects_and_pheno_run.R, run_reml.sh, process_sim_results.R, and run_simulation.sh. The last scripts (run_simulation.sh) is the main executable which calls for rest scripts.
 # General Recommendations:
 Most of the scripts except create_grm.sh and create_effects.R, use "test_extracted" in their input file names, therefore, please use name "test.vcf.gz" for your initial imputed data which automatically generates test_extracted.vcf.gz and future files with same names.
-Please keep indexed test.vcf.gz and a list of trio/duos (file must have 3 columsn without header, same as column 2-4 of .bim file).
+Please keep indexed test.vcf.gz and a list of trio/duos (file must have 3 columsn without header, same as column 2-4 of .bim file) in H-GCTA/data.test.
 List of GRMs must have GRM names without extension and with full path (examples of GRM lists are included in data.test, please replace "user" with your actual "user name").
 Phenotype file must have 3 columns - FID, IID and Phenotype (without header).
 Scripts are written for Linux64-bit operating system on the x86_64 CPU platform.
@@ -23,7 +23,6 @@ Following is the brief instruction for the use of each script.
   #arg[5] - maf cutoff (say 0.01)
 
   The script utilizes bcftools, plink, split_haplotypes and divide_grm and expects them to be present in either ~/H-GCTA/bin or default path like /usr/bin or usr/local/bin.
-  Binaries are kept in the working directory to facilitate them running from the default path also, without repeating the codes for calling them from some directory (say ./bin) or without adding path to that directory to default path.
   Pedigree file provided as arg[3] must have 3 columns (without header) with first column as individual id, second column as paternal id and third column as maternal id.
   Data type is provided as arg[4]. The script also allows to set a MAF cut-off (arg[5]) for creating plink-format files and creating GRMs.
 

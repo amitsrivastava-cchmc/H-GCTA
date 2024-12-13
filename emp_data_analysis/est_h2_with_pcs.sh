@@ -6,8 +6,8 @@
 #BSUB -n 8
 #BSUB -M 32768
 #BSUB -R "span[ptile=2]"
-#BSUB -e /data/predataSamit/empirical_data_analysis/%J.err
-#BSUB -o /data/predataSamit/empirical_data_analysis/%J.out
+#BSUB -e /data/user/empirical_data_analysis/%J.err
+#BSUB -o /data/user/empirical_data_analysis/%J.out
 
 read -p "please provide the working directory with full path " wd
 cd $wd

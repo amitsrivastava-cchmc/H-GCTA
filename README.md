@@ -36,7 +36,7 @@ Following is the brief instruction for the use of each script.
   This step only runs if user responds [y/Y] otherwise the script only writes the extractd vcf file along with trios, duos pedigree file.
 
   Further, script asks if the user wants to create GRM from extracted vcf file and plink-format haplotype files.
-  Like above step, this step also runs only if user responds {y/Y] otherwise extracted vcf, pedigree files and plink compatible haplotype files are saved in working directory. One can say no at this step as this step will be repeated in create_grm_extend.sh.
+  Like above step, this step also runs only if user responds [y/Y] otherwise extracted vcf, pedigree files and plink compatible haplotype files are saved in working directory. One can say no at this step as this step will be repeated in create_grm_extend.sh.
 
   # create_grm_extend.sh
 

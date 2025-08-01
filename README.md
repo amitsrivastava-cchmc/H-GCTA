@@ -62,7 +62,8 @@ Following is the brief instruction for the use of each script.
 # simulation
 
 simulation utilizes few R and shell scripts to create simulated data with varrying contribution and correlation of maternal and fetal genetic contribution to phenotypic variance along with different levels of parent-of-origin effects (POEs).
-POEs were created by simulating matrnal imprinting where maternally transmitted alleles have less effect as compared to paternal transmitted alleles. Analyses were performed using various simulation conditions; details can be found (https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full).
+POEs were created by simulating matrnal imprinting where maternally transmitted alleles have less effect as compared to paternal transmitted alleles. Analyses were performed using various simulation conditions; details can be found (10.1371/journal.pgen.1011575
+ & https://www.biorxiv.org/content/10.1101/2020.05.12.079863v2.full).
 Simulation utilizes following scripts - 1) create_effects.R, 2) sim_effects_and_pheno.R, 3) sim_effects_and_pheno_run.R, 4) run_reml.sh, 5) process_sim_results.R, and 6) run_simulation.sh
 
 **Most of the simulaiton scripts (except create_effects.R) use "test_extracted" in their input names, therefore please save your original idexed vcf file as "test.vcf.gz".**
@@ -72,14 +73,14 @@ Analyses performed via run_simulation.sh use LDAK6.linux and gcta64 (version 1.9
 Like previous scripts, lines 5-12 are commented out to run the script on any personal computer which has R and Rscript in computer's "$PATH".
 Lines 28-33 are the most crucial variables which decide what would be the number of iterations and relative maternal and fetal genetic contribution to dyadic traits.
 When prompted to provide phenotype directory, please provide the directory name where you want the simulated phenotypes and corresponding results to be saved (e.g. /home/user/H-GCTA/simulation/simulation_mf_with_ppoe_1.0_m1_0.0_mf_cor_1.0)
-Phenotype directory name has a unique style to represent the type of trait like mat/fet/mf, ppoe (0-1.0), effect of m1 as compared to p1, and correlation (mf_cor) for example, [(-1.0) - 1.0].
+Phenotype directory name has a unique style to represent the type of trait like mat/fet/mf, propportion of variants with POEs (ppoe; 0-1.0), effect of m1 as compared to p1, and average correlation of mat and fet genetic effects (mf_cor) for example, [(-1.0) - 1.0].
 Script automatically captures correlation coefficient of maternal and fetal genetic effects, proportion of causal variants with POEs (ppoe) and imprinting factor (value used to reduce the effect of maternal transmitted alleles as compared to paternal transmitted alleles) from the variable "pheno_dir" (directory name where simulated phenotypes and corresponding results are saved) in run_simulation.sh.
 Script also asks the user to provide the directory where plink format files and corresponding GRMs are saved (/home/user/H-GCTA/data.test).
 
   # Brief description of scripts used in simulation
 
-  1) create_effects.R is a function which creates parental, fetal and parent-of-origin effects using the provided list of causal variants based on the parameters like mean correlation among maternal and fetal genetic effects (mf_cor), relative contribution of maternal and fetal genotypes, proportion of causal variants with POEs (ppoe) and level of maternal imprinting (effect of m1 as compared to p1).
-  2) sim_effects_and_pheno.R is another function which calls create_effects.R to create effects and then simulate phenotypes using empirical data with the help of gcta. This is the function which picks mean correlation among maternal-fetal genetic effects (mf_cor), proportion of causal variants with POEs (ppoe) and level of maternal imprinting from the variable "pheno_dir" (created in run_simulation.sh).
+  1) create_effects.R is a function which creates parental, fetal and parent-of-origin effects using the provided list of causal variants based on the parameters like average correlation among maternal and fetal genetic effects (mf_cor), relative contribution of maternal and fetal genotypes, proportion of causal variants with POEs (ppoe) and level of maternal imprinting (effect of m1 as compared to p1).
+  2) sim_effects_and_pheno.R is another function which calls create_effects.R to create effects and then simulate phenotypes using empirical data with the help of gcta. This is the function which picks average correlation among maternal-fetal genetic effects (mf_cor), proportion of causal variants with POEs (ppoe) and level of maternal imprinting from the variable "pheno_dir" (created in run_simulation.sh).
   3) sim_effects_and_pheno_run.R calls for the above script ("sim_effects_and_pheno.R").
   4) run_reml.sh is compilation of commands for running REML using LDAK and GCTA models. This script expects that GRMs should be saved in directory provided as arg[1] and phenotypes in a directory provided as arg[2]. arg[3] is the number of iterations.
   5) process_sim_results.R is used to create table with mean estimates, standard error (SE) and corrsponding p values using one sided and two sided z test.

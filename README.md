@@ -19,7 +19,7 @@ Following is the brief instruction for the use of each script.
   #arg[1] - working directory where input-output files are present
   #arg[2] - prefix of vcf file name
   #arg[3] - list of duos/trios
-  #arg]4] - "trios" or "pat-duos" or "mat-duos"
+  #arg[4] - "trios" or "pat-duos" or "mat-duos"
   #arg[5] - maf cutoff (say 0.01)
 
   The script utilizes bcftools, plink, split_haplotypes and divide_grm and expects them to be present in either ~/H-GCTA/bin or default path like /usr/bin or usr/local/bin.
